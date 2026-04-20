@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>AgriHub · GreenByte + FarmConnect</title>
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: Inter + JetBrains Mono -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ----- GLOBAL RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: radial-gradient(circle at 10% 30%, #daf0dc, #b9d8b3);
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            color: #0b2f1c;
+        }
+        /* unified top bar */
+        .hub-nav {
+            background: #0c3f1f;
+            padding: 0.8rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-bottom: 2px solid #c0ff8c;
+        }
+        .hub-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #f3ffea;
+            font-weight: 700;
+            font-size: 1.3rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .hub-logo i {
+            color: #bef264;
+            font-size: 1.5rem;
+        }
+        .module-toggles {
+            display: flex;
+            gap: 1rem;
+        }
+        .toggle-module {
+            background: #2c7840cc;
+            backdrop-filter: blur(4px);
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-family: 'Inter', monospace;
+            color: #e6ffdb;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        .toggle-module.active {
+            background: #52b43a;
+            color: #0a2f12;
+            box-shadow: 0 0 8px #bef264;
+            border: 1px solid #e3ffb0;
+        }
+        .toggle-module:hover {
+            background: #3e9e54;
+            transform: translateY(-2px);
+        }
+        /* module containers */
+        .module-container {
+            display: none;
+            animation: fade 0.2s ease;
+        }
+        .module-container.active-module {
+            display: block;
+        }
+        @keyframes fade {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* ----- GREEN BYTE MODULE STYLES (preserved) ----- */
+        .greenbyte-module .green-byte-container {
+            max-width: 820px;
+            margin: 2rem auto;
+            background: rgba(255, 255, 245, 0.96);
+            backdrop-filter: blur(3px);
+            border-radius: 2.5rem;
+            box-shadow: 0 30px 40px -20px rgba(20, 50, 10, 0.5), 0 0 0 1px rgba(100, 180, 70, 0.3);
+            overflow: hidden;
+        }
+        .greenbyte-module .byte-header {
+            background: linear-gradient(135deg, #0c3f1f 0%, #1f6537 100%);
+            padding: 1.8rem 2rem 1.5rem;
+            text-align: center;
+            border-bottom: 3px solid #c0ff8c;
+        }
+        .greenbyte-module .byte-header h1 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: #f3ffea;
+        }
+        .greenbyte-module .upload-card { margin: 1.6rem 2rem 0.5rem; background: #ffffffea; border-radius: 1.8rem; }
+        .greenbyte-module .upload-area { background: #f5fff0; border: 2px dashed #86bf6c; border-radius: 1.6rem; padding: 1.8rem 1rem; text-align: center; cursor: pointer; transition: 0.2s; }
+        .greenbyte-module .byte-btn { background: linear-gradient(100deg, #1b4d2a, #216e38); border: 1px solid #a3e07c; color: #f4ffe6; padding: 0.85rem 0.5rem; border-radius: 3rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .greenbyte-module .analysis-panel { background: #ffffff; margin: 1.8rem 2rem 1.5rem; border-radius: 2rem; padding: 1.6rem; border-left: 8px solid #52b43a; }
+        .greenbyte-module .reupload-btn { background: #ebf9e3; border: 1px solid #7bb35e; color: #226e38; padding: 0.5rem 1.2rem; border-radius: 3rem; cursor: pointer; }
+        
+        /* ----- MARKETPLACE MODULE (COMPLETELY RESTYLED) ----- */
+        .marketplace-module {
+            background: #f8fef4;
+        }
+        /* navbar for marketplace */
+        .marketplace-module .market-navbar {
+            background: #1f5e2e;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .marketplace-module .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .marketplace-module .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .marketplace-module .nav-links button, .marketplace-module .auth-btn {
+            background: #ffd966;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            color: #1e3a1e;
+            transition: 0.2s;
+        }
+        .marketplace-module .nav-links button.outline {
+            background: transparent;
+            border: 1px solid #ffd966;
+            color: #ffd966;
+        }
+        .marketplace-module .user-badge {
+            background: #2e7d40;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.9rem;
+        }
+        .marketplace-module .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        /* search & categories */
+        .marketplace-module .search-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .marketplace-module .search-box {
+            flex: 2;
+            display: flex;
+            background: white;
+            border-radius: 3rem;
+            overflow: hidden;
+            border: 1px solid #c0dfaa;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+        }
+        .marketplace-module .search-box input {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+        }
+        .marketplace-module .search-box button {
+            background: #2a6e3a;
+            border: none;
+            padding: 0 1.5rem;
+            color: white;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .marketplace-module .categories {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .marketplace-module .cat-btn {
+            background: #e9f5e1;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .marketplace-module .cat-btn.active {
+            background: #2a6e3a;
+            color: white;
+        }
+        /* nearby section */
+        .marketplace-module .nearby-section {
+            background: #eef6e7;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            margin-bottom: 2rem;
+            border-left: 6px solid #4cae4c;
+        }
+        .marketplace-module .nearby-list {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+        }
+        .marketplace-module .nearby-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        /* product grid */
+        .marketplace-module .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+        .marketplace-module .product-card {
+            background: white;
+            border-radius: 1.2rem;
+            overflow: hidden;
+            box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .marketplace-module .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.12);
+        }
+        .marketplace-module .product-img {
+            height: 170px;
+            background: #d9e8cf;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            overflow: hidden;
+        }
+        .marketplace-module .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .marketplace-module .product-info {
+            padding: 1rem;
+        }
+        .marketplace-module .product-title {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .marketplace-module .product-detail {
+            font-size: 0.85rem;
+            color: #4a6141;
+            margin: 0.3rem 0;
+        }
+        .marketplace-module .price {
+            font-weight: 700;
+            color: #1f6e2f;
+            font-size: 1.2rem;
+        }
+        .marketplace-module .add-cart {
+            background: #2a6e3a;
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 0.6rem;
+            border-radius: 2rem;
+            margin-top: 0.8rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .marketplace-module .add-cart:hover {
+            background: #1f542c;
+        }
+        .marketplace-module .stock {
+            font-size: 0.7rem;
+            color: #7f8c6d;
+        }
+        .marketplace-module .rating i {
+            color: #ffb347;
+            font-size: 0.8rem;
+        }
+        /* farmer dashboard panels */
+        .marketplace-module .dashboard-panel {
+            background: white;
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+        }
+        .marketplace-module .form-group {
+            margin-bottom: 1rem;
+        }
+        .marketplace-module .form-group input, 
+        .marketplace-module .form-group textarea, 
+        .marketplace-module .form-group select {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border-radius: 1rem;
+            border: 1px solid #c0dfaa;
+            font-family: 'Inter', sans-serif;
+        }
+        .marketplace-module .btn-primary {
+            background: #2a6e3a;
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border: none;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .marketplace-module .btn-primary:hover {
+            background: #1f542c;
+        }
+        .marketplace-module .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .marketplace-module .orders-table th, 
+        .marketplace-module .orders-table td {
+            border-bottom: 1px solid #ddebd0;
+            padding: 0.8rem;
+            text-align: left;
+        }
+        .marketplace-module .badge {
+            padding: 0.2rem 0.7rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        .marketplace-module .badge.pending { background: #ffe0a3; color: #a45d00; }
+        .marketplace-module .badge.accepted { background: #c8f0c1; color: #1f6e2f; }
+        .marketplace-module .badge.rejected { background: #ffcdcd; color: #b13b3b; }
+        /* cart sidebar */
+        .marketplace-module .cart-sidebar {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 380px;
+            height: 100%;
+            background: white;
+            box-shadow: -2px 0 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            padding: 1.5rem;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: 0.3s ease;
+        }
+        .marketplace-module .cart-sidebar.open {
+            transform: translateX(0);
+        }
+        .marketplace-module .cart-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 999;
+            display: none;
+        }
+        .marketplace-module .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        /* chat modal */
+        .marketplace-module .chat-modal {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 340px;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            z-index: 1100;
+            display: none;
+            flex-direction: column;
+            max-height: 460px;
+            overflow: hidden;
+        }
+        .marketplace-module .chat-header {
+            background: #1f5e2e;
+            color: white;
+            padding: 0.8rem;
+            border-radius: 1rem 1rem 0 0;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        .marketplace-module .chat-messages {
+            height: 280px;
+            overflow-y: auto;
+            padding: 0.8rem;
+            font-size: 0.85rem;
+            background: #fefef7;
+        }
+        .marketplace-module .chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+        }
+        .marketplace-module .chat-input input {
+            flex: 1;
+            padding: 0.7rem;
+            border: none;
+            outline: none;
+        }
+        .marketplace-module .chat-input button {
+            background: #2a6e3a;
+            color: white;
+            border: none;
+            padding: 0 1rem;
+            cursor: pointer;
+        }
+        /* delete product button */
+        .marketplace-module .delete-prodM {
+            background: #c4450c;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.9rem;
+            border-radius: 1rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        /* responsive */
+        @media (max-width: 700px) {
+            .hub-nav { flex-direction: column; gap: 0.8rem; text-align: center; }
+            .module-toggles { justify-content: center; }
+            .marketplace-module .cart-sidebar { width: 100%; }
+            .marketplace-module .market-navbar { flex-direction: column; }
+            .marketplace-module .products-grid { grid-template-columns: 1fr; }
+        }
+        .footer-note {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.7rem;
+            color: #2b5e2f;
+            background: #e0f0d8;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="hub-nav">
+    <div class="hub-logo">
+        <i class="fas fa-seedling"></i> AgriHub
+        <i class="fas fa-microchip"></i>
+    </div>
+    <div class="module-toggles">
+        <button class="toggle-module active" data-module="greenbyte"><i class="fas fa-leaf"></i> GreenByte · Disease AI</button>
+        <button class="toggle-module" data-module="marketplace"><i class="fas fa-store"></i> FarmConnect Marketplace</button>
+    </div>
+</div>
+
+<!-- GREEN BYTE MODULE -->
+<div id="greenbyteModule" class="module-container greenbyte-module active-module">
+    <div class="green-byte-container">
+        <div class="byte-header">
+            <h1><i class="fas fa-microchip"></i> Green Byte <i class="fas fa-leaf"></i></h1>
+            <div class="byte-tagline">
+                <span><i class="fas fa-camera"></i> Snap</span>
+                <span><i class="fas fa-microscope"></i> Detect</span>
+                <span><i class="fas fa-hand-holding-heart"></i> Heal</span>
+                <span><i class="fas fa-language"></i> मराठी आवाज</span>
+                <span><i class="fas fa-sync-alt"></i> Re-upload</span>
+            </div>
+        </div>
+        <div class="upload-card">
+            <div class="upload-area" id="gbUploadArea">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <p>Click or tap to upload leaf / crop image</p>
+                <div class="upload-hint"><i class="fas fa-image"></i> JPG, PNG · Mock AI detection</div>
+                <input type="file" id="gbFileInput" accept="image/jpeg, image/png, image/jpg" style="display: none;">
+            </div>
+            <div class="image-preview" id="gbImagePreviewContainer" style="display: none;">
+                <div class="preview-wrapper">
+                    <img id="gbPreviewImg" alt="Leaf preview" style="max-width:100%; max-height:170px; border-radius:1.2rem;">
+                </div>
+                <button class="reupload-btn" id="gbReuploadBtn"><i class="fas fa-arrows-rotate"></i> Change / Re-upload Image</button>
+            </div>
+        </div>
+        <div class="button-row" style="display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; margin:1rem 2rem;">
+            <button class="byte-btn" id="gbDetectBtn"><i class="fas fa-search"></i> Detect Disease</button>
+            <button class="byte-btn" id="gbSolutionBtn"><i class="fas fa-seedling"></i> Get Solution</button>
+            <button class="byte-btn" id="gbVoiceBtn"><i class="fas fa-volume-up"></i> मराठी आवाज (Marathi Voice)</button>
+        </div>
+        <div class="analysis-panel">
+            <div class="analysis-title"><i class="fas fa-chart-simple"></i><h2>Analysis</h2></div>
+            <div class="disease-card"><div class="disease-label"><i class="fas fa-bug"></i> DETECTED CONDITION</div><div id="gbDiseaseName">Default Disease</div></div>
+            <div class="solution-card"><div class="solution-label"><i class="fas fa-clinic-medical"></i> Recommended solution</div><div id="gbSolutionText">Consult local agri-extension office. Isolate affected plant. Remove severely infected parts.</div></div>
+        </div>
+        <div class="footer-byte" style="text-align:center; padding:1rem;"><i class="fas fa-microphone-alt"></i> Multilingual voice: Marathi (mr-IN) · AI simulation · Re-upload any time</div>
+    </div>
+</div>
+
+<!-- MARKETPLACE MODULE (FarmConnect) -->
+<div id="marketplaceModule" class="module-container marketplace-module">
+    <div id="marketplaceRoot"></div>
+</div>
+
+<div class="footer-note">
+    <i class="fas fa-handshake"></i> Integrated Platform: AI Disease Diagnosis + Direct Farm Marketplace
+</div>
+
+<script>
+    // --------------------------------------------------------------
+    // 1) GREEN BYTE MODULE SCRIPT (FULL FEATURES)
+    // --------------------------------------------------------------
+    (function() {
+        const marathiTranslations = {
+            "Late Blight": { disease_mr: "उशीरा बुरशी (Late Blight)", solution_mr: "ताबडतोब तांबे-आधारित बुरशीनाशक फवारा करा. संक्रमित पाने काढून टाका. हवेची योग्य वातानुकूलिता ठेवा, पाणी फक्त मुळाशी द्या. प्रतिरोधक वाणांची लागवड करा." },
+            "Powdery Mildew": { disease_mr: "भुकटी बुरशी (Powdery Mildew)", solution_mr: "निम तेल किंवा पोटॅशियम बायकार्बोनेट फवारा. दाट पाने छाटून काढा. पाने कोरडी ठेवा, गंधकयुक्त बुरशीनाशक वापरा." },
+            "Leaf Spot": { disease_mr: "पानावरील डाग (Leaf Spot)", solution_mr: "प्रभावित पाने काढून नष्ट करा. तांबे बुरशीनाशक फवारा. पिकांची फेरपालट करा. पाने कोरडी ठेवण्यासाठी सकाळी पाणी द्या." },
+            "Rust Disease": { disease_mr: "गंज रोग (Rust Disease)", solution_mr: "संक्रमित भाग काढून टाका. मायक्लोब्युटानिल बुरशीनाशक वापरा. पाने ओली न ठेवता योग्य निचरा सुनिश्चित करा. प्रतिरोधक वाण लावा." },
+            "Bacterial Wilt": { disease_mr: "जिवाणू आटवण (Bacterial Wilt)", solution_mr: "ताबडतोब रोगट झाडे उपटून नष्ट करा. 4 वर्षे पीक फेरपालट करा. साधने जंतुनाशकाने स्वच्छ करा. मातीचा निचरा सुधारा." },
+            "Healthy Leaf": { disease_mr: "निरोगी पान (Healthy Leaf)", solution_mr: "कोणताही उपचार आवश्यक नाही. नियमित पाणी, संतुलित खते, व नियमित निरीक्षण ठेवा. स्वच्छतेचा अवलंब करा." },
+            "Anthracnose": { disease_mr: "काजळी रोग (Anthracnose)", solution_mr: "क्लोरोथॅलोनिल किंवा मॅन्कोझेब बुरशीनाशक फवारा. गळून पडलेला कचरा काढून टाका. रोगमुक्त बियाणे वापरा." },
+            "Mosaic Virus": { disease_mr: "मोझॅक विषाणू (Mosaic Virus)", solution_mr: "संक्रमित झाडे त्वरित काढून टाका. कीटकनाशक साबणाने एफिड्स नियंत्रित करा. प्रमाणित बियाणे वापरा." },
+            "Default Disease": { disease_mr: "सामान्य रोग (Default Disease)", solution_mr: "स्थानिक कृषी विस्तार कार्यालयाशी संपर्क साधा. रोगट झाड वेगळे करा. संक्रमित भाग काढून टाका." }
+        };
+        function getMarathiForDisease(eng) { return marathiTranslations[eng] || { disease_mr: eng + " (रोग)", solution_mr: "कृषी तज्ञांचा सल्ला घ्या. संक्रमित भाग काढा. सेंद्रिय बुरशीनाशक फवारा करा." }; }
+        const diseaseDatabase = {
+            "Late Blight": { solution: "Apply copper-based fungicide immediately. Remove infected leaves. Improve air circulation, avoid overhead watering. Use resistant varieties." },
+            "Powdery Mildew": { solution: "Spray neem oil or potassium bicarbonate. Prune dense foliage. Water at base. Apply sulfur fungicide if severe." },
+            "Leaf Spot": { solution: "Remove affected leaves. Apply copper spray or chlorothalonil. Keep foliage dry, rotate crops annually." },
+            "Rust Disease": { solution: "Remove infected leaves. Apply myclobutanil fungicide. Ensure good drainage, avoid wet leaves." },
+            "Bacterial Wilt": { solution: "Uproot and destroy infected plants. Rotate crops (4+ years). Disinfect tools. Improve soil drainage." },
+            "Healthy Leaf": { solution: "No treatment needed! Continue proper watering, balanced fertilizer, regular monitoring." },
+            "Anthracnose": { solution: "Apply chlorothalonil or mancozeb. Remove fallen debris. Use disease-free seeds." },
+            "Mosaic Virus": { solution: "Remove infected plants immediately. Control aphids with insecticidal soap. Use certified virus-free seeds." }
+        };
+        const defaultDiseaseObj = { name: "Default Disease", solution: "Consult local agri-extension office. Isolate affected plant. Remove severely infected parts." };
+        let gbCurrentDisease = "Default Disease", gbCurrentSolutionText = defaultDiseaseObj.solution, gbUploadedImageFile = null;
+        const gbDiseaseNameEl = document.getElementById("gbDiseaseName"), gbSolutionTextEl = document.getElementById("gbSolutionText");
+        const gbFileInput = document.getElementById("gbFileInput"), gbUploadArea = document.getElementById("gbUploadArea");
+        const gbPreviewContainer = document.getElementById("gbImagePreviewContainer"), gbPreviewImg = document.getElementById("gbPreviewImg");
+        const gbDetectBtn = document.getElementById("gbDetectBtn"), gbSolutionBtn = document.getElementById("gbSolutionBtn"), gbVoiceBtn = document.getElementById("gbVoiceBtn"), gbReuploadBtn = document.getElementById("gbReuploadBtn");
+        function updateGbUI() { gbDiseaseNameEl.innerText = gbCurrentDisease; gbSolutionTextEl.innerText = gbCurrentSolutionText; }
+        function getGbSolutionFromDisease(d) { if(d==="Default Disease") return defaultDiseaseObj.solution; return diseaseDatabase[d] ? diseaseDatabase[d].solution : "Consult local expert."; }
+        function mockAIDetection(hasImage) { let list = Object.keys(diseaseDatabase); if(!list.includes("Healthy Leaf")) list.push("Healthy Leaf"); let idx = (hasImage && gbUploadedImageFile) ? (gbUploadedImageFile.name.length + (gbUploadedImageFile.lastModified % 37)) % list.length : Math.floor(Math.random() * list.length); return list[idx]; }
+        function performGbDetection() { let newDisease = mockAIDetection(!!gbUploadedImageFile); gbCurrentDisease = newDisease; gbCurrentSolutionText = `🔬 AI identified "${gbCurrentDisease}". Click 'Get Solution' for detailed management.`; updateGbUI(); let orig = gbDetectBtn.innerHTML; gbDetectBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Scanning...'; setTimeout(() => { gbDetectBtn.innerHTML = orig; }, 350); }
+        function handleGbSolution() { gbCurrentSolutionText = getGbSolutionFromDisease(gbCurrentDisease); updateGbUI(); }
+        function speakInMarathiGb() { if(gbCurrentSolutionText.includes("Click 'Get Solution'")) gbCurrentSolutionText = getGbSolutionFromDisease(gbCurrentDisease); let mar = getMarathiForDisease(gbCurrentDisease); let msg = `रोग निदान: ${mar.disease_mr}. शिफारस केलेले उपाय: ${mar.solution_mr}`; if(!window.speechSynthesis) { alert("आवाज समर्थन नाही"); return; } window.speechSynthesis.cancel(); let utter = new SpeechSynthesisUtterance(msg); utter.lang = "mr-IN"; utter.rate = 0.9; let setVoice = (u) => { let voices = window.speechSynthesis.getVoices(); let mv = voices.find(v => v.lang === 'mr-IN' || v.lang.startsWith('mr')); if(mv) u.voice = mv; }; if(window.speechSynthesis.getVoices().length) setVoice(utter); else window.speechSynthesis.onvoiceschanged = () => setVoice(utter); window.speechSynthesis.speak(utter); }
+        function resetGbToDefault() { gbCurrentDisease = "Default Disease"; gbCurrentSolutionText = defaultDiseaseObj.solution; updateGbUI(); }
+        function handleGbImageUpload(file) { if(!file || !file.type.startsWith('image/')) { alert("कृपया वैध प्रतिमा अपलोड करा"); return; } gbUploadedImageFile = file; let reader = new FileReader(); reader.onload = (e) => { gbPreviewImg.src = e.target.result; gbPreviewContainer.style.display = "block"; }; reader.readAsDataURL(file); resetGbToDefault(); }
+        gbFileInput.addEventListener("change", (e) => { if(e.target.files && e.target.files[0]) handleGbImageUpload(e.target.files[0]); });
+        gbUploadArea.addEventListener("click", () => gbFileInput.click()); gbReuploadBtn.addEventListener("click", (e) => { e.stopPropagation(); gbFileInput.click(); });
+        gbDetectBtn.addEventListener("click", performGbDetection); gbSolutionBtn.addEventListener("click", handleGbSolution); gbVoiceBtn.addEventListener("click", speakInMarathiGb);
+        updateGbUI();
+    })();
+
+    // --------------------------------------------------------------
+    // 2) MARKETPLACE MODULE (FarmConnect) - FULLY RESTYLED
+    // --------------------------------------------------------------
+    (function() {
+        let users = JSON.parse(localStorage.getItem('fc_users')) || [
+            { id: 'f1', name: 'Ramesh Yadav', email: 'farmer@farm.com', password: 'farmer123', role: 'farmer', location: 'Pune' },
+            { id: 'c1', name: 'Priya Customer', email: 'customer@example.com', password: 'cust123', role: 'customer', location: 'Pune' }
+        ];
+        let products = JSON.parse(localStorage.getItem('fc_products')) || [
+            { id: 'p1', name: 'Organic Tomatoes', price: 45, quantity: 100, unit: 'kg', category: 'Vegetables', farmerId: 'f1', farmerName: 'Ramesh Yadav', imageData: '', location: 'Pune, 5km', avgRating: 4.5, ratings: [] },
+            { id: 'p2', name: 'Fresh Spinach', price: 22, quantity: 50, unit: 'bunch', category: 'Vegetables', farmerId: 'f1', farmerName: 'Ramesh Yadav', imageData: '', location: 'Pune, 5km', avgRating: 4.2, ratings: [] },
+            { id: 'p3', name: 'Sweet Mangoes', price: 160, quantity: 30, unit: 'dozen', category: 'Fruits', farmerId: 'f1', farmerName: 'Ramesh Yadav', imageData: '', location: 'Pune, 5km', avgRating: 4.8, ratings: [] },
+            { id: 'p4', name: 'Basmati Rice', price: 85, quantity: 200, unit: 'kg', category: 'Grains', farmerId: 'f1', farmerName: 'Ramesh Yadav', imageData: '', location: 'Pune, 5km', avgRating: 4.0, ratings: [] }
+        ];
+        let orders = JSON.parse(localStorage.getItem('fc_orders')) || [];
+        let chats = JSON.parse(localStorage.getItem('fc_chats')) || [];
+        let currentUser = JSON.parse(localStorage.getItem('fc_currentUser')) || null;
+        let cart = JSON.parse(localStorage.getItem('fc_cart')) || [];
+        let deliveryFee = 20;
+        function saveAll() { localStorage.setItem('fc_users', JSON.stringify(users)); localStorage.setItem('fc_products', JSON.stringify(products)); localStorage.setItem('fc_orders', JSON.stringify(orders)); localStorage.setItem('fc_chats', JSON.stringify(chats)); localStorage.setItem('fc_currentUser', JSON.stringify(currentUser)); localStorage.setItem('fc_cart', JSON.stringify(cart)); }
+        function getNearbyFarmers(loc) { let farmers = users.filter(u => u.role === 'farmer'); if(!loc) return farmers.slice(0,3); return farmers.filter(f => f.location && f.location.toLowerCase() === loc.toLowerCase()).slice(0,4); }
+        let activeCategory = 'All', searchTerm = '';
+        function renderMarketplace() { let root = document.getElementById('marketplaceRoot'); if(!root) return; if(!currentUser) { root.innerHTML = renderAuth(); attachAuthEvents(); return; } if(currentUser.role === 'farmer') { root.innerHTML = renderFarmerDashboard(); attachFarmerEvents(); } else { root.innerHTML = renderCustomerApp(); attachCustomerEvents(); } }
+        function renderAuth() { return `<div class="container" style="max-width:500px; margin-top:2rem;"><div class="dashboard-panel"><h2><i class="fas fa-leaf"></i> FarmConnect</h2><div style="display:flex; gap:1rem; margin-bottom:1rem;"><button id="showLoginBtnM" class="btn-primary">Login</button><button id="showSignupBtnM" class="btn-primary" style="background:#6c7a63;">Signup</button></div><div id="authFormContainerM"><form id="loginFormM"><div class="form-group"><input type="email" id="loginEmailM" placeholder="Email" required></div><div class="form-group"><input type="password" id="loginPasswordM" placeholder="Password" required></div><button type="submit" class="btn-primary">Login</button><p style="margin-top:1rem;">Demo: farmer@farm.com / farmer123 &nbsp;|&nbsp; customer@example.com / cust123</p></form></div></div></div>`; }
+        function attachAuthEvents() { let showLogin = document.getElementById('showLoginBtnM'); let showSignup = document.getElementById('showSignupBtnM'); if(showLogin) showLogin.onclick = () => { document.getElementById('authFormContainerM').innerHTML = `<form id="loginFormM"><div class="form-group"><input type="email" id="loginEmailM" placeholder="Email" required></div><div class="form-group"><input type="password" id="loginPasswordM" placeholder="Password" required></div><button type="submit" class="btn-primary">Login</button></form>`; attachLogin(); }; if(showSignup) showSignup.onclick = () => { document.getElementById('authFormContainerM').innerHTML = `<form id="signupFormM"><div class="form-group"><input type="text" id="signupNameM" placeholder="Full Name" required></div><div class="form-group"><input type="email" id="signupEmailM" placeholder="Email" required></div><div class="form-group"><select id="signupRoleM"><option value="customer">Customer</option><option value="farmer">Farmer</option></select></div><div class="form-group"><input type="text" id="signupLocationM" placeholder="City"></div><div class="form-group"><input type="password" id="signupPasswordM" placeholder="Password" required></div><button type="submit" class="btn-primary">Signup</button></form>`; attachSignup(); }; function attachLogin() { let form = document.getElementById('loginFormM'); if(form) form.onsubmit = (e) => { e.preventDefault(); let email = document.getElementById('loginEmailM').value, pwd = document.getElementById('loginPasswordM').value; let user = users.find(u => u.email === email && u.password === pwd); if(user) { currentUser = { id: user.id, name: user.name, email: user.email, role: user.role, location: user.location }; saveAll(); renderMarketplace(); } else alert('Invalid'); }; } function attachSignup() { let form = document.getElementById('signupFormM'); if(form) form.onsubmit = (e) => { e.preventDefault(); let name = document.getElementById('signupNameM').value, email = document.getElementById('signupEmailM').value, role = document.getElementById('signupRoleM').value, loc = document.getElementById('signupLocationM').value || 'Pune', pwd = document.getElementById('signupPasswordM').value; if(users.find(u=>u.email===email)) return alert('Email exists'); let newUser = { id:'u'+Date.now(), name, email, password:pwd, role, location:loc }; users.push(newUser); currentUser = { id:newUser.id, name, email, role, location:loc }; saveAll(); renderMarketplace(); }; } let loginForm = document.getElementById('loginFormM'); if(loginForm) attachLogin(); }
+        function renderFarmerDashboard() { let myProducts = products.filter(p => p.farmerId === currentUser.id); let myOrders = orders.filter(o => o.farmerId === currentUser.id); return `<div class="market-navbar"><div class="logo"><i class="fas fa-tractor"></i> FarmConnect</div><div class="nav-links"><span class="user-badge"><i class="fas fa-user"></i> ${currentUser.name} (Farmer)</span><button id="logoutBtnM" class="outline">Logout</button></div></div><div class="container"><div class="dashboard-panel"><h3><i class="fas fa-plus-circle"></i> Add New Product</h3><form id="addProductFormM"><div class="form-group"><input type="text" id="prodNameM" placeholder="Product name" required></div><div class="form-group"><input type="number" id="prodPriceM" placeholder="Price per unit" required></div><div class="form-group"><input type="number" id="prodQtyM" placeholder="Available quantity" required></div><div class="form-group"><input type="text" id="prodUnitM" placeholder="Unit (kg, dozen)" value="kg"></div><div class="form-group"><select id="prodCategoryM"><option>Vegetables</option><option>Fruits</option><option>Grains</option></select></div><div class="form-group"><input type="text" id="prodLocationM" placeholder="Location (e.g. Pune, 5km)"></div><div class="form-group"><input type="file" id="prodImageM" accept="image/*"></div><button type="submit" class="btn-primary">Add Product</button></form></div><div class="dashboard-panel"><h3>📦 My Products</h3><div class="products-grid" id="farmerProductsGridM">${myProducts.map(p => `<div class="product-card"><div class="product-img">${p.imageData ? `<img src="${p.imageData}">` : '🌾'}</div><div class="product-info"><strong>${p.name}</strong><br>₹${p.price}/${p.unit}<br>Stock: ${p.quantity}<br>⭐ ${p.avgRating || 0}<br><button class="delete-prodM" data-id="${p.id}">Delete</button></div></div>`).join('') || '<p>No products yet.</p>'}</div></div><div class="dashboard-panel"><h3>📋 Orders Received</h3><table class="orders-table"><tr><th>Product</th><th>Qty</th><th>Buyer</th><th>Total+Delivery</th><th>Status</th><th>Action</th></tr>${myOrders.map(o => `<tr><td>${o.productName}</td><td>${o.quantity}</td><td>${o.buyerName}</td><td>₹${o.total + o.deliveryFee}</td><td><span class="badge ${o.status}">${o.status}</span></td><td>${o.status === 'pending' ? `<button class="accept-orderM" data-id="${o.id}">Accept</button> <button class="reject-orderM" data-id="${o.id}">Reject</button>` : '-'}</td></tr>`).join('')}</table></div></div>`; }
+        function attachFarmerEvents() { document.getElementById('logoutBtnM')?.addEventListener('click', () => { currentUser = null; saveAll(); renderMarketplace(); }); document.getElementById('addProductFormM')?.addEventListener('submit', (e) => { e.preventDefault(); let name = document.getElementById('prodNameM').value, price = parseFloat(document.getElementById('prodPriceM').value), qty = parseInt(document.getElementById('prodQtyM').value), unit = document.getElementById('prodUnitM').value, cat = document.getElementById('prodCategoryM').value, loc = document.getElementById('prodLocationM').value || currentUser.location; let file = document.getElementById('prodImageM').files[0]; let save = (img) => { products.push({ id:'p'+Date.now(), name, price, quantity:qty, unit, category:cat, farmerId:currentUser.id, farmerName:currentUser.name, imageData:img, location:loc, avgRating:0, ratings:[] }); saveAll(); renderMarketplace(); }; if(file){ let r = new FileReader(); r.onload = ev => save(ev.target.result); r.readAsDataURL(file); } else save(''); }); document.querySelectorAll('.delete-prodM').forEach(btn => btn.addEventListener('click', () => { products = products.filter(p => p.id !== btn.dataset.id); saveAll(); renderMarketplace(); })); document.querySelectorAll('.accept-orderM').forEach(btn => btn.addEventListener('click', () => { let ord = orders.find(o => o.id === btn.dataset.id); if(ord) ord.status = 'accepted'; saveAll(); renderMarketplace(); })); document.querySelectorAll('.reject-orderM').forEach(btn => btn.addEventListener('click', () => { let ord = orders.find(o => o.id === btn.dataset.id); if(ord) ord.status = 'rejected'; saveAll(); renderMarketplace(); })); }
+        function renderCustomerApp() { let filtered = products.filter(p => p.quantity > 0); if(activeCategory !== 'All') filtered = filtered.filter(p => p.category === activeCategory); if(searchTerm) filtered = filtered.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase())); let nearby = getNearbyFarmers(currentUser.location); let cartTotal = cart.reduce((s,i) => s + i.quantity, 0); let subtotal = cart.reduce((s,i) => s + (i.price * i.quantity), 0); let grand = subtotal + deliveryFee; return `<div class="market-navbar"><div class="logo"><i class="fas fa-store"></i> FarmConnect</div><div class="nav-links"><span class="user-badge"><i class="fas fa-user"></i> ${currentUser.name}</span><button id="viewCartBtnM"><i class="fas fa-shopping-cart"></i> Cart (${cartTotal})</button><button id="logoutBtnM" class="outline">Logout</button></div></div><div class="container"><div class="search-section"><div class="search-box"><input type="text" id="searchInputM" placeholder="Search..." value="${searchTerm}"><button id="searchBtnM"><i class="fas fa-search"></i></button></div><div class="categories" id="categoriesContainerM"><button class="cat-btn ${activeCategory==='All'?'active':''}" data-cat="All">All</button><button class="cat-btn ${activeCategory==='Vegetables'?'active':''}" data-cat="Vegetables">🥦 Veg</button><button class="cat-btn ${activeCategory==='Fruits'?'active':''}" data-cat="Fruits">🍎 Fruits</button><button class="cat-btn ${activeCategory==='Grains'?'active':''}" data-cat="Grains">🌾 Grains</button></div></div><div class="nearby-section"><i class="fas fa-map-marker-alt"></i> <strong>Nearby Farmers (${currentUser.location || 'Pune'} region)</strong><div class="nearby-list">${nearby.map(f => `<div class="nearby-card"><i class="fas fa-tractor"></i> ${f.name}<br><small>📍 ${f.location}</small></div>`).join('')}</div></div><div class="products-grid" id="customerProductsGridM">${filtered.map(p => `<div class="product-card"><div class="product-img">${p.imageData ? `<img src="${p.imageData}">` : (p.category==='Vegetables'?'🥬':'🍎')}</div><div class="product-info"><div class="product-title">${p.name}</div><div class="product-detail"><i class="fas fa-user"></i> ${p.farmerName} · 📍 ${p.location}</div><div class="price">₹${p.price} / ${p.unit}</div><div class="stock">In stock: ${p.quantity} ${p.unit}</div><div class="rating">⭐ ${p.avgRating || 0} <button class="rate-prodM" data-id="${p.id}" style="background:none; border:none; color:#ffb347;">Rate</button></div><button class="add-cartM" data-id="${p.id}"><i class="fas fa-cart-plus"></i> Add to Cart</button><button class="chat-farmerM" data-farmer="${p.farmerId}" style="margin-top:0.3rem; background:#e9f5e1; border:none; padding:0.3rem; border-radius:1rem; width:100%;">💬 Chat with Farmer</button></div></div>`).join('') || '<p>No products found.</p>'}</div></div><div class="cart-overlay" id="cartOverlayM"></div><div class="cart-sidebar" id="cartSidebarM"><div class="flex-between"><h3>Your Cart</h3><button id="closeCartBtnM"><i class="fas fa-times"></i></button></div><div id="cartItemsListM">${cart.map(item => `<div class="flex-between" style="margin:0.5rem 0;"><span>${item.name} x${item.quantity} (${item.unit})<br><small>₹${item.price}/ea</small></span><span>₹${item.price * item.quantity}</span></div>`).join('')}</div><hr><div>Subtotal: ₹${subtotal}</div><div>Delivery Fee: ₹${deliveryFee}</div><div class="flex-between"><strong>Total: ₹${grand}</strong></div><button id="checkoutBtnM" class="btn-primary" style="width:100%; margin-top:1rem;">Place Order</button></div><div id="chatModalM" class="chat-modal"></div>`; }
+        function attachCustomerEvents() { document.getElementById('logoutBtnM')?.addEventListener('click', () => { currentUser = null; saveAll(); renderMarketplace(); }); document.getElementById('searchBtnM')?.addEventListener('click', () => { searchTerm = document.getElementById('searchInputM').value; renderMarketplace(); }); document.querySelectorAll('.cat-btn').forEach(btn => btn.addEventListener('click', () => { activeCategory = btn.dataset.cat; renderMarketplace(); })); document.querySelectorAll('.add-cartM').forEach(btn => btn.addEventListener('click', (e) => { let prod = products.find(p => p.id === btn.dataset.id); if(prod && prod.quantity>0) { let exist = cart.find(i => i.id === prod.id); if(exist) exist.quantity++; else cart.push({ id: prod.id, name: prod.name, price: prod.price, quantity:1, unit: prod.unit, farmerId: prod.farmerId, farmerName: prod.farmerName }); saveAll(); renderMarketplace(); let sidebar = document.getElementById('cartSidebarM'); if(sidebar) sidebar.classList.add('open'); document.getElementById('cartOverlayM').style.display = 'block'; } else alert('Out of stock'); })); document.querySelectorAll('.rate-prodM').forEach(btn => btn.addEventListener('click', () => { let r = prompt('Rate 1-5:'); if(r && r>=1 && r<=5){ let prod = products.find(p=>p.id===btn.dataset.id); if(prod){ prod.ratings.push(parseInt(r)); prod.avgRating = (prod.ratings.reduce((a,b)=>a+b,0)/prod.ratings.length).toFixed(1); saveAll(); renderMarketplace(); } } })); let sidebar = document.getElementById('cartSidebarM'), overlay = document.getElementById('cartOverlayM'); document.getElementById('viewCartBtnM')?.addEventListener('click', () => { sidebar.classList.add('open'); overlay.style.display = 'block'; }); document.getElementById('closeCartBtnM')?.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.style.display = 'none'; }); overlay?.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.style.display = 'none'; }); document.getElementById('checkoutBtnM')?.addEventListener('click', () => { if(cart.length===0) return alert('Cart empty'); for(let item of cart){ let prod = products.find(p=>p.id===item.id); if(!prod || prod.quantity < item.quantity){ alert(`Insufficient stock for ${item.name}`); return; } } for(let item of cart){ let prod = products.find(p=>p.id===item.id); prod.quantity -= item.quantity; orders.push({ id:'ord'+Date.now()+Math.random(), productId:item.id, productName:item.name, quantity:item.quantity, total:item.price*item.quantity, deliveryFee, finalTotal:item.price*item.quantity+deliveryFee, buyerId:currentUser.id, buyerName:currentUser.name, farmerId:item.farmerId, farmerName:item.farmerName, status:'pending' }); } cart = []; saveAll(); alert('Order placed! Farmers can accept/reject.'); renderMarketplace(); if(sidebar) sidebar.classList.remove('open'); if(overlay) overlay.style.display = 'none'; }); document.querySelectorAll('.chat-farmerM').forEach(btn => btn.addEventListener('click', () => { let farmerId = btn.dataset.farmer; let chat = chats.find(c => c.farmerId === farmerId && c.customerId === currentUser.id); if(!chat) { chat = { id: `${farmerId}_${currentUser.id}`, farmerId, customerId: currentUser.id, messages: [] }; chats.push(chat); saveAll(); } let modal = document.getElementById('chatModalM'); modal.style.display = 'flex'; modal.innerHTML = `<div class="chat-header"><i class="fas fa-comment"></i> Chat with Farmer <span style="float:right; cursor:pointer;">&times;</span></div><div class="chat-messages" id="chatMessagesM">${chat.messages.map(m => `<div><b>${m.sender}:</b> ${m.text}</div>`).join('')}</div><div class="chat-input"><input type="text" id="chatInputM" placeholder="Type..."><button id="sendChatM">Send</button></div>`; modal.querySelector('.chat-header span').onclick = () => modal.style.display = 'none'; document.getElementById('sendChatM').onclick = () => { let inp = document.getElementById('chatInputM'); if(inp.value.trim()){ chat.messages.push({ sender: currentUser.name, text: inp.value, time: new Date().toLocaleTimeString() }); saveAll(); let msgDiv = document.getElementById('chatMessagesM'); msgDiv.innerHTML += `<div><b>${currentUser.name}:</b> ${inp.value}</div>`; inp.value = ''; msgDiv.scrollTop = msgDiv.scrollHeight; } }; })); }
+        renderMarketplace();
+    })();
+
+    // MODULE TOGGLE
+    const greenModule = document.getElementById('greenbyteModule');
+    const marketModule = document.getElementById('marketplaceModule');
+    const toggleBtns = document.querySelectorAll('.toggle-module');
+    function switchModule(moduleId) {
+        greenModule.classList.remove('active-module');
+        marketModule.classList.remove('active-module');
+        if(moduleId === 'greenbyte') greenModule.classList.add('active-module');
+        else marketModule.classList.add('active-module');
+        toggleBtns.forEach(btn => { btn.classList.remove('active'); if(btn.dataset.module === moduleId) btn.classList.add('active'); });
+    }
+    toggleBtns.forEach(btn => btn.addEventListener('click', () => switchModule(btn.dataset.module)));
+</script>
+</body>
+</html>
