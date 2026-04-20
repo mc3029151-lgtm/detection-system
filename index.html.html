@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>AgriHub · GreenByte + FarmConnect</title>
+    <title>AgriHub · GreenByte + FarmConnect (Full CSS)</title>
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- Google Fonts: Inter + JetBrains Mono -->
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         /* ----- GLOBAL RESET & BASE ----- */
@@ -87,7 +87,8 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        /* ----- GREEN BYTE MODULE STYLES (preserved) ----- */
+
+        /* ----- GREEN BYTE MODULE STYLES (with pesticide card) ----- */
         .greenbyte-module .green-byte-container {
             max-width: 820px;
             margin: 2rem auto;
@@ -118,12 +119,38 @@
         .greenbyte-module .byte-btn { background: linear-gradient(100deg, #1b4d2a, #216e38); border: 1px solid #a3e07c; color: #f4ffe6; padding: 0.85rem 0.5rem; border-radius: 3rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
         .greenbyte-module .analysis-panel { background: #ffffff; margin: 1.8rem 2rem 1.5rem; border-radius: 2rem; padding: 1.6rem; border-left: 8px solid #52b43a; }
         .greenbyte-module .reupload-btn { background: #ebf9e3; border: 1px solid #7bb35e; color: #226e38; padding: 0.5rem 1.2rem; border-radius: 3rem; cursor: pointer; }
-        
-        /* ----- MARKETPLACE MODULE (COMPLETELY RESTYLED) ----- */
+        .lang-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 0.5rem 2rem;
+        }
+        .lang-btn {
+            background: #e9f5e1;
+            border: 1px solid #7bb35e;
+            padding: 0.4rem 1.2rem;
+            border-radius: 2rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.2s;
+        }
+        .lang-btn.active {
+            background: #2a6e3a;
+            color: white;
+            border-color: #bef264;
+        }
+        .pesticide-card {
+            margin-top: 1rem;
+            background: #fff8e7;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            border-left: 5px solid #e67e22;
+        }
+
+        /* ----- MARKETPLACE MODULE (FULL CSS RESTORED) ----- */
         .marketplace-module {
             background: #f8fef4;
         }
-        /* navbar for marketplace */
         .marketplace-module .market-navbar {
             background: #1f5e2e;
             color: white;
@@ -174,7 +201,6 @@
             margin: 0 auto;
             padding: 1.5rem;
         }
-        /* search & categories */
         .marketplace-module .search-section {
             display: flex;
             flex-wrap: wrap;
@@ -225,7 +251,6 @@
             background: #2a6e3a;
             color: white;
         }
-        /* nearby section */
         .marketplace-module .nearby-section {
             background: #eef6e7;
             border-radius: 1.5rem;
@@ -245,7 +270,6 @@
             padding: 0.5rem 1rem;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        /* product grid */
         .marketplace-module .products-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -317,7 +341,6 @@
             color: #ffb347;
             font-size: 0.8rem;
         }
-        /* farmer dashboard panels */
         .marketplace-module .dashboard-panel {
             background: white;
             border-radius: 1.5rem;
@@ -369,7 +392,6 @@
         .marketplace-module .badge.pending { background: #ffe0a3; color: #a45d00; }
         .marketplace-module .badge.accepted { background: #c8f0c1; color: #1f6e2f; }
         .marketplace-module .badge.rejected { background: #ffcdcd; color: #b13b3b; }
-        /* cart sidebar */
         .marketplace-module .cart-sidebar {
             position: fixed;
             right: 0;
@@ -402,7 +424,6 @@
             justify-content: space-between;
             align-items: center;
         }
-        /* chat modal */
         .marketplace-module .chat-modal {
             position: fixed;
             bottom: 20px;
@@ -449,7 +470,6 @@
             padding: 0 1rem;
             cursor: pointer;
         }
-        /* delete product button */
         .marketplace-module .delete-prodM {
             background: #c4450c;
             color: white;
@@ -500,9 +520,15 @@
                 <span><i class="fas fa-camera"></i> Snap</span>
                 <span><i class="fas fa-microscope"></i> Detect</span>
                 <span><i class="fas fa-hand-holding-heart"></i> Heal</span>
-                <span><i class="fas fa-language"></i> मराठी आवाज</span>
-                <span><i class="fas fa-sync-alt"></i> Re-upload</span>
+                <span><i class="fas fa-language"></i> 3 भाषा आवाज</span>
+                <span><i class="fas fa-flask"></i> Pesticides</span>
             </div>
+        </div>
+        <!-- Language Buttons -->
+        <div class="lang-selector">
+            <button class="lang-btn active" data-lang="mr">🇮🇳 मराठी (Marathi)</button>
+            <button class="lang-btn" data-lang="hi">🇮🇳 हिन्दी (Hindi)</button>
+            <button class="lang-btn" data-lang="en">🇬🇧 English</button>
         </div>
         <div class="upload-card">
             <div class="upload-area" id="gbUploadArea">
@@ -521,18 +547,23 @@
         <div class="button-row" style="display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; margin:1rem 2rem;">
             <button class="byte-btn" id="gbDetectBtn"><i class="fas fa-search"></i> Detect Disease</button>
             <button class="byte-btn" id="gbSolutionBtn"><i class="fas fa-seedling"></i> Get Solution</button>
-            <button class="byte-btn" id="gbVoiceBtn"><i class="fas fa-volume-up"></i> मराठी आवाज (Marathi Voice)</button>
+            <button class="byte-btn" id="gbPesticideBtn"><i class="fas fa-flask"></i> Recommend Pesticides</button>
+            <button class="byte-btn" id="gbVoiceBtn"><i class="fas fa-volume-up"></i> Voice Output</button>
         </div>
         <div class="analysis-panel">
             <div class="analysis-title"><i class="fas fa-chart-simple"></i><h2>Analysis</h2></div>
             <div class="disease-card"><div class="disease-label"><i class="fas fa-bug"></i> DETECTED CONDITION</div><div id="gbDiseaseName">Default Disease</div></div>
             <div class="solution-card"><div class="solution-label"><i class="fas fa-clinic-medical"></i> Recommended solution</div><div id="gbSolutionText">Consult local agri-extension office. Isolate affected plant. Remove severely infected parts.</div></div>
+            <div class="pesticide-card" id="pesticideCard" style="display:none;">
+                <div class="solution-label"><i class="fas fa-flask"></i> Recommended Pesticides / Fungicides</div>
+                <div id="gbPesticideText">-</div>
+            </div>
         </div>
-        <div class="footer-byte" style="text-align:center; padding:1rem;"><i class="fas fa-microphone-alt"></i> Multilingual voice: Marathi (mr-IN) · AI simulation · Re-upload any time</div>
+        <div class="footer-byte" style="text-align:center; padding:1rem;"><i class="fas fa-microphone-alt"></i> Multilingual voice + Pesticide recommendations · AI simulation</div>
     </div>
 </div>
 
-<!-- MARKETPLACE MODULE (FarmConnect) -->
+<!-- MARKETPLACE MODULE -->
 <div id="marketplaceModule" class="module-container marketplace-module">
     <div id="marketplaceRoot"></div>
 </div>
@@ -543,53 +574,198 @@
 
 <script>
     // --------------------------------------------------------------
-    // 1) GREEN BYTE MODULE SCRIPT (FULL FEATURES)
+    // 1) GREEN BYTE MODULE - Multilingual + Pesticides
     // --------------------------------------------------------------
     (function() {
-        const marathiTranslations = {
-            "Late Blight": { disease_mr: "उशीरा बुरशी (Late Blight)", solution_mr: "ताबडतोब तांबे-आधारित बुरशीनाशक फवारा करा. संक्रमित पाने काढून टाका. हवेची योग्य वातानुकूलिता ठेवा, पाणी फक्त मुळाशी द्या. प्रतिरोधक वाणांची लागवड करा." },
-            "Powdery Mildew": { disease_mr: "भुकटी बुरशी (Powdery Mildew)", solution_mr: "निम तेल किंवा पोटॅशियम बायकार्बोनेट फवारा. दाट पाने छाटून काढा. पाने कोरडी ठेवा, गंधकयुक्त बुरशीनाशक वापरा." },
-            "Leaf Spot": { disease_mr: "पानावरील डाग (Leaf Spot)", solution_mr: "प्रभावित पाने काढून नष्ट करा. तांबे बुरशीनाशक फवारा. पिकांची फेरपालट करा. पाने कोरडी ठेवण्यासाठी सकाळी पाणी द्या." },
-            "Rust Disease": { disease_mr: "गंज रोग (Rust Disease)", solution_mr: "संक्रमित भाग काढून टाका. मायक्लोब्युटानिल बुरशीनाशक वापरा. पाने ओली न ठेवता योग्य निचरा सुनिश्चित करा. प्रतिरोधक वाण लावा." },
-            "Bacterial Wilt": { disease_mr: "जिवाणू आटवण (Bacterial Wilt)", solution_mr: "ताबडतोब रोगट झाडे उपटून नष्ट करा. 4 वर्षे पीक फेरपालट करा. साधने जंतुनाशकाने स्वच्छ करा. मातीचा निचरा सुधारा." },
-            "Healthy Leaf": { disease_mr: "निरोगी पान (Healthy Leaf)", solution_mr: "कोणताही उपचार आवश्यक नाही. नियमित पाणी, संतुलित खते, व नियमित निरीक्षण ठेवा. स्वच्छतेचा अवलंब करा." },
-            "Anthracnose": { disease_mr: "काजळी रोग (Anthracnose)", solution_mr: "क्लोरोथॅलोनिल किंवा मॅन्कोझेब बुरशीनाशक फवारा. गळून पडलेला कचरा काढून टाका. रोगमुक्त बियाणे वापरा." },
-            "Mosaic Virus": { disease_mr: "मोझॅक विषाणू (Mosaic Virus)", solution_mr: "संक्रमित झाडे त्वरित काढून टाका. कीटकनाशक साबणाने एफिड्स नियंत्रित करा. प्रमाणित बियाणे वापरा." },
-            "Default Disease": { disease_mr: "सामान्य रोग (Default Disease)", solution_mr: "स्थानिक कृषी विस्तार कार्यालयाशी संपर्क साधा. रोगट झाड वेगळे करा. संक्रमित भाग काढून टाका." }
+        const translations = {
+            mr: {
+                "Late Blight": { disease: "उशीरा बुरशी (Late Blight)", solution: "ताबडतोब तांबे-आधारित बुरशीनाशक फवारा करा. संक्रमित पाने काढून टाका. हवेची योग्य वातानुकूलिता ठेवा, पाणी फक्त मुळाशी द्या." },
+                "Powdery Mildew": { disease: "भुकटी बुरशी (Powdery Mildew)", solution: "निम तेल किंवा पोटॅशियम बायकार्बोनेट फवारा. दाट पाने छाटून काढा. पाने कोरडी ठेवा, गंधकयुक्त बुरशीनाशक वापरा." },
+                "Leaf Spot": { disease: "पानावरील डाग (Leaf Spot)", solution: "प्रभावित पाने काढून नष्ट करा. तांबे बुरशीनाशक फवारा. पिकांची फेरपालट करा. पाने कोरडी ठेवण्यासाठी सकाळी पाणी द्या." },
+                "Rust Disease": { disease: "गंज रोग (Rust Disease)", solution: "संक्रमित भाग काढून टाका. मायक्लोब्युटानिल बुरशीनाशक वापरा. पाने ओली न ठेवता योग्य निचरा सुनिश्चित करा." },
+                "Bacterial Wilt": { disease: "जिवाणू आटवण (Bacterial Wilt)", solution: "ताबडतोब रोगट झाडे उपटून नष्ट करा. 4 वर्षे पीक फेरपालट करा. साधने जंतुनाशकाने स्वच्छ करा." },
+                "Healthy Leaf": { disease: "निरोगी पान (Healthy Leaf)", solution: "कोणताही उपचार आवश्यक नाही. नियमित पाणी, संतुलित खते, व नियमित निरीक्षण ठेवा." },
+                "Anthracnose": { disease: "काजळी रोग (Anthracnose)", solution: "क्लोरोथॅलोनिल किंवा मॅन्कोझेब बुरशीनाशक फवारा. गळून पडलेला कचरा काढून टाका." },
+                "Mosaic Virus": { disease: "मोझॅक विषाणू (Mosaic Virus)", solution: "संक्रमित झाडे त्वरित काढून टाका. कीटकनाशक साबणाने एफिड्स नियंत्रित करा." },
+                "Default Disease": { disease: "सामान्य रोग", solution: "स्थानिक कृषी विस्तार कार्यालयाशी संपर्क साधा. रोगट झाड वेगळे करा." }
+            },
+            hi: {
+                "Late Blight": { disease: "उशीरा झुलसा रोग (Late Blight)", solution: "तुरंत कॉपर-आधारित फफूंदीनाशक छिड़कें। संक्रमित पत्ते हटा दें। हवा का संचार सुधारें, पानी जड़ में दें।" },
+                "Powdery Mildew": { disease: "चूर्णिल फफूंदी (Powdery Mildew)", solution: "नीम तेल या पोटैशियम बाइकार्बोनेट छिड़कें। घने पत्तों को काटें। गंधक युक्त फफूंदीनाशक प्रयोग करें।" },
+                "Leaf Spot": { disease: "पत्ती धब्बा रोग (Leaf Spot)", solution: "प्रभावित पत्ते हटाकर नष्ट करें। कॉपर स्प्रे करें। फसल चक्र अपनाएं। सुबह पानी दें।" },
+                "Rust Disease": { disease: "जंग रोग (Rust Disease)", solution: "संक्रमित भाग हटाएं। माइक्लोब्यूटानिल फफूंदीनाशक लगाएं। जल निकासी सुधारें।" },
+                "Bacterial Wilt": { disease: "जीवाणु विल्ट (Bacterial Wilt)", solution: "रोगग्रस्त पौधे उखाड़कर नष्ट करें। 4 साल फसल चक्र अपनाएं। औजार साफ करें।" },
+                "Healthy Leaf": { disease: "स्वस्थ पत्ता (Healthy Leaf)", solution: "किसी उपचार की आवश्यकता नहीं। नियमित पानी, संतुलित उर्वरक, निगरानी रखें।" },
+                "Anthracnose": { disease: "एन्थ्रेक्नोज (Anthracnose)", solution: "क्लोरोथैलोनिल या मैन्कोज़ेब फफूंदीनाशक छिड़कें। गिरे हुए मलबे हटाएं।" },
+                "Mosaic Virus": { disease: "मोज़ेक वायरस (Mosaic Virus)", solution: "संक्रमित पौधे तुरंत हटाएं। कीटनाशक साबुन से एफिड्स नियंत्रित करें।" },
+                "Default Disease": { disease: "सामान्य रोग", solution: "स्थानीय कृषि विस्तार कार्यालय से संपर्क करें। रोगग्रस्त पौधे अलग करें।" }
+            },
+            en: {
+                "Late Blight": { disease: "Late Blight", solution: "Apply copper-based fungicide immediately. Remove infected leaves. Improve air circulation, avoid overhead watering." },
+                "Powdery Mildew": { disease: "Powdery Mildew", solution: "Spray neem oil or potassium bicarbonate. Prune dense foliage. Water at base. Apply sulfur fungicide if severe." },
+                "Leaf Spot": { disease: "Leaf Spot", solution: "Remove affected leaves. Apply copper spray or chlorothalonil. Keep foliage dry, rotate crops annually." },
+                "Rust Disease": { disease: "Rust Disease", solution: "Remove infected leaves. Apply myclobutanil fungicide. Ensure good drainage, avoid wet leaves." },
+                "Bacterial Wilt": { disease: "Bacterial Wilt", solution: "Uproot and destroy infected plants. Rotate crops (4+ years). Disinfect tools. Improve soil drainage." },
+                "Healthy Leaf": { disease: "Healthy Leaf", solution: "No treatment needed! Continue proper watering, balanced fertilizer, regular monitoring." },
+                "Anthracnose": { disease: "Anthracnose", solution: "Apply chlorothalonil or mancozeb. Remove fallen debris. Use disease-free seeds." },
+                "Mosaic Virus": { disease: "Mosaic Virus", solution: "Remove infected plants immediately. Control aphids with insecticidal soap. Use certified virus-free seeds." },
+                "Default Disease": { disease: "Default Disease", solution: "Consult local agri-extension office. Isolate affected plant." }
+            }
         };
-        function getMarathiForDisease(eng) { return marathiTranslations[eng] || { disease_mr: eng + " (रोग)", solution_mr: "कृषी तज्ञांचा सल्ला घ्या. संक्रमित भाग काढा. सेंद्रिय बुरशीनाशक फवारा करा." }; }
-        const diseaseDatabase = {
-            "Late Blight": { solution: "Apply copper-based fungicide immediately. Remove infected leaves. Improve air circulation, avoid overhead watering. Use resistant varieties." },
-            "Powdery Mildew": { solution: "Spray neem oil or potassium bicarbonate. Prune dense foliage. Water at base. Apply sulfur fungicide if severe." },
-            "Leaf Spot": { solution: "Remove affected leaves. Apply copper spray or chlorothalonil. Keep foliage dry, rotate crops annually." },
-            "Rust Disease": { solution: "Remove infected leaves. Apply myclobutanil fungicide. Ensure good drainage, avoid wet leaves." },
-            "Bacterial Wilt": { solution: "Uproot and destroy infected plants. Rotate crops (4+ years). Disinfect tools. Improve soil drainage." },
-            "Healthy Leaf": { solution: "No treatment needed! Continue proper watering, balanced fertilizer, regular monitoring." },
-            "Anthracnose": { solution: "Apply chlorothalonil or mancozeb. Remove fallen debris. Use disease-free seeds." },
-            "Mosaic Virus": { solution: "Remove infected plants immediately. Control aphids with insecticidal soap. Use certified virus-free seeds." }
+
+        const pesticideDB = {
+            "Late Blight": "• Copper oxychloride (Blitox) – 2g/L water\n• Mancozeb (Dithane M-45) – 2.5g/L\n• Metalaxyl + Mancozeb (Ridomil Gold) – 2g/L",
+            "Powdery Mildew": "• Sulfur (Wettable sulfur) – 2g/L\n• Hexaconazole (Contaf) – 1ml/L\n• Tebuconazole (Folicur) – 1ml/L",
+            "Leaf Spot": "• Chlorothalonil (Kavach) – 2g/L\n• Propiconazole (Tilt) – 1ml/L\n• Azoxystrobin (Amistar) – 1ml/L",
+            "Rust Disease": "• Myclobutanil (Systhane) – 1g/L\n• Propiconazole (Tilt) – 1ml/L\n• Mancozeb – 2.5g/L",
+            "Bacterial Wilt": "• Streptomycin sulfate (Agrimycin) – 0.5g/L\n• Copper hydroxide (Kocide) – 2g/L\n• Bleaching powder solution in soil",
+            "Healthy Leaf": "• No pesticide needed. Practice good hygiene.",
+            "Anthracnose": "• Carbendazim (Bavistin) – 1g/L\n• Chlorothalonil (Kavach) – 2g/L\n• Thiram seed treatment",
+            "Mosaic Virus": "• No direct cure. Control vectors: Imidacloprid (Confidor) – 0.5ml/L for aphids\n• Mineral oil to reduce spread",
+            "Default Disease": "• Consult local agricultural officer for specific pesticide recommendation."
         };
-        const defaultDiseaseObj = { name: "Default Disease", solution: "Consult local agri-extension office. Isolate affected plant. Remove severely infected parts." };
-        let gbCurrentDisease = "Default Disease", gbCurrentSolutionText = defaultDiseaseObj.solution, gbUploadedImageFile = null;
-        const gbDiseaseNameEl = document.getElementById("gbDiseaseName"), gbSolutionTextEl = document.getElementById("gbSolutionText");
-        const gbFileInput = document.getElementById("gbFileInput"), gbUploadArea = document.getElementById("gbUploadArea");
-        const gbPreviewContainer = document.getElementById("gbImagePreviewContainer"), gbPreviewImg = document.getElementById("gbPreviewImg");
-        const gbDetectBtn = document.getElementById("gbDetectBtn"), gbSolutionBtn = document.getElementById("gbSolutionBtn"), gbVoiceBtn = document.getElementById("gbVoiceBtn"), gbReuploadBtn = document.getElementById("gbReuploadBtn");
-        function updateGbUI() { gbDiseaseNameEl.innerText = gbCurrentDisease; gbSolutionTextEl.innerText = gbCurrentSolutionText; }
-        function getGbSolutionFromDisease(d) { if(d==="Default Disease") return defaultDiseaseObj.solution; return diseaseDatabase[d] ? diseaseDatabase[d].solution : "Consult local expert."; }
-        function mockAIDetection(hasImage) { let list = Object.keys(diseaseDatabase); if(!list.includes("Healthy Leaf")) list.push("Healthy Leaf"); let idx = (hasImage && gbUploadedImageFile) ? (gbUploadedImageFile.name.length + (gbUploadedImageFile.lastModified % 37)) % list.length : Math.floor(Math.random() * list.length); return list[idx]; }
-        function performGbDetection() { let newDisease = mockAIDetection(!!gbUploadedImageFile); gbCurrentDisease = newDisease; gbCurrentSolutionText = `🔬 AI identified "${gbCurrentDisease}". Click 'Get Solution' for detailed management.`; updateGbUI(); let orig = gbDetectBtn.innerHTML; gbDetectBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Scanning...'; setTimeout(() => { gbDetectBtn.innerHTML = orig; }, 350); }
-        function handleGbSolution() { gbCurrentSolutionText = getGbSolutionFromDisease(gbCurrentDisease); updateGbUI(); }
-        function speakInMarathiGb() { if(gbCurrentSolutionText.includes("Click 'Get Solution'")) gbCurrentSolutionText = getGbSolutionFromDisease(gbCurrentDisease); let mar = getMarathiForDisease(gbCurrentDisease); let msg = `रोग निदान: ${mar.disease_mr}. शिफारस केलेले उपाय: ${mar.solution_mr}`; if(!window.speechSynthesis) { alert("आवाज समर्थन नाही"); return; } window.speechSynthesis.cancel(); let utter = new SpeechSynthesisUtterance(msg); utter.lang = "mr-IN"; utter.rate = 0.9; let setVoice = (u) => { let voices = window.speechSynthesis.getVoices(); let mv = voices.find(v => v.lang === 'mr-IN' || v.lang.startsWith('mr')); if(mv) u.voice = mv; }; if(window.speechSynthesis.getVoices().length) setVoice(utter); else window.speechSynthesis.onvoiceschanged = () => setVoice(utter); window.speechSynthesis.speak(utter); }
-        function resetGbToDefault() { gbCurrentDisease = "Default Disease"; gbCurrentSolutionText = defaultDiseaseObj.solution; updateGbUI(); }
-        function handleGbImageUpload(file) { if(!file || !file.type.startsWith('image/')) { alert("कृपया वैध प्रतिमा अपलोड करा"); return; } gbUploadedImageFile = file; let reader = new FileReader(); reader.onload = (e) => { gbPreviewImg.src = e.target.result; gbPreviewContainer.style.display = "block"; }; reader.readAsDataURL(file); resetGbToDefault(); }
-        gbFileInput.addEventListener("change", (e) => { if(e.target.files && e.target.files[0]) handleGbImageUpload(e.target.files[0]); });
-        gbUploadArea.addEventListener("click", () => gbFileInput.click()); gbReuploadBtn.addEventListener("click", (e) => { e.stopPropagation(); gbFileInput.click(); });
-        gbDetectBtn.addEventListener("click", performGbDetection); gbSolutionBtn.addEventListener("click", handleGbSolution); gbVoiceBtn.addEventListener("click", speakInMarathiGb);
+
+        let gbCurrentDisease = "Default Disease";
+        let gbUploadedImageFile = null;
+        let currentLanguage = "mr";
+
+        const gbDiseaseNameEl = document.getElementById("gbDiseaseName");
+        const gbSolutionTextEl = document.getElementById("gbSolutionText");
+        const gbPesticideTextEl = document.getElementById("gbPesticideText");
+        const pesticideCard = document.getElementById("pesticideCard");
+        const gbFileInput = document.getElementById("gbFileInput");
+        const gbUploadArea = document.getElementById("gbUploadArea");
+        const gbPreviewContainer = document.getElementById("gbImagePreviewContainer");
+        const gbPreviewImg = document.getElementById("gbPreviewImg");
+        const gbDetectBtn = document.getElementById("gbDetectBtn");
+        const gbSolutionBtn = document.getElementById("gbSolutionBtn");
+        const gbPesticideBtn = document.getElementById("gbPesticideBtn");
+        const gbVoiceBtn = document.getElementById("gbVoiceBtn");
+        const gbReuploadBtn = document.getElementById("gbReuploadBtn");
+        const langBtns = document.querySelectorAll(".lang-btn");
+
+        function updateGbUI() {
+            let trans = translations[currentLanguage];
+            let diseaseText = trans[gbCurrentDisease]?.disease || gbCurrentDisease;
+            let solutionText = trans[gbCurrentDisease]?.solution || "Consult local expert.";
+            gbDiseaseNameEl.innerText = diseaseText;
+            gbSolutionTextEl.innerText = solutionText;
+            pesticideCard.style.display = "none";
+        }
+
+        function mockAIDetection(hasImage) {
+            let list = Object.keys(pesticideDB);
+            if (!list.includes("Healthy Leaf")) list.push("Healthy Leaf");
+            if (hasImage && gbUploadedImageFile) {
+                let idx = (gbUploadedImageFile.name.length + (gbUploadedImageFile.lastModified % 37)) % list.length;
+                return list[idx];
+            }
+            return list[Math.floor(Math.random() * list.length)];
+        }
+
+        function performGbDetection() {
+            let newDisease = mockAIDetection(!!gbUploadedImageFile);
+            gbCurrentDisease = newDisease;
+            updateGbUI();
+            let orig = gbDetectBtn.innerHTML;
+            gbDetectBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Scanning...';
+            setTimeout(() => { gbDetectBtn.innerHTML = orig; }, 350);
+        }
+
+        function handleGbSolution() {
+            updateGbUI();
+        }
+
+        function handleGbPesticide() {
+            let pesticideText = pesticideDB[gbCurrentDisease] || pesticideDB["Default Disease"];
+            gbPesticideTextEl.innerText = pesticideText;
+            pesticideCard.style.display = "block";
+        }
+
+        function speakInSelectedLanguage() {
+            if (gbCurrentDisease === "Default Disease" && !gbUploadedImageFile) {
+                alert("Please upload an image and detect disease first.");
+                return;
+            }
+            let trans = translations[currentLanguage];
+            let diseaseName = trans[gbCurrentDisease]?.disease || gbCurrentDisease;
+            let solutionText = trans[gbCurrentDisease]?.solution || "Consult local expert.";
+            let pesticideText = pesticideDB[gbCurrentDisease] || pesticideDB["Default Disease"];
+            let message = "";
+            if (currentLanguage === "mr") {
+                message = `रोग निदान: ${diseaseName}. शिफारस केलेले उपाय: ${solutionText}. कीटकनाशके: ${pesticideText}`;
+            } else if (currentLanguage === "hi") {
+                message = `रोग का निदान: ${diseaseName}. सुझाया गया उपाय: ${solutionText}. कीटनाशक: ${pesticideText}`;
+            } else {
+                message = `Disease detected: ${diseaseName}. Recommended solution: ${solutionText}. Pesticides: ${pesticideText}`;
+            }
+            if (!window.speechSynthesis) {
+                alert("Sorry, your browser does not support speech synthesis.");
+                return;
+            }
+            window.speechSynthesis.cancel();
+            let utterance = new SpeechSynthesisUtterance(message);
+            let langCode = currentLanguage === "mr" ? "mr-IN" : (currentLanguage === "hi" ? "hi-IN" : "en-US");
+            utterance.lang = langCode;
+            utterance.rate = 0.9;
+            let setVoice = (u) => {
+                let voices = window.speechSynthesis.getVoices();
+                let selectedVoice = voices.find(v => v.lang === langCode);
+                if (selectedVoice) u.voice = selectedVoice;
+                else {
+                    let fallback = voices.find(v => v.lang.startsWith(currentLanguage === "mr" ? "mr" : (currentLanguage === "hi" ? "hi" : "en")));
+                    if (fallback) u.voice = fallback;
+                }
+            };
+            if (window.speechSynthesis.getVoices().length) setVoice(utterance);
+            else window.speechSynthesis.onvoiceschanged = () => setVoice(utterance);
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function resetGbToDefault() {
+            gbCurrentDisease = "Default Disease";
+            updateGbUI();
+            pesticideCard.style.display = "none";
+        }
+
+        function handleGbImageUpload(file) {
+            if (!file || !file.type.startsWith('image/')) {
+                alert("कृपया वैध प्रतिमा अपलोड करा / Please upload a valid image.");
+                return;
+            }
+            gbUploadedImageFile = file;
+            let reader = new FileReader();
+            reader.onload = (e) => {
+                gbPreviewImg.src = e.target.result;
+                gbPreviewContainer.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+            resetGbToDefault();
+        }
+
+        langBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                langBtns.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                currentLanguage = btn.getAttribute("data-lang");
+                updateGbUI();
+            });
+        });
+
+        gbFileInput.addEventListener("change", (e) => {
+            if (e.target.files && e.target.files[0]) handleGbImageUpload(e.target.files[0]);
+        });
+        gbUploadArea.addEventListener("click", () => gbFileInput.click());
+        gbReuploadBtn.addEventListener("click", (e) => { e.stopPropagation(); gbFileInput.click(); });
+        gbDetectBtn.addEventListener("click", performGbDetection);
+        gbSolutionBtn.addEventListener("click", handleGbSolution);
+        gbPesticideBtn.addEventListener("click", handleGbPesticide);
+        gbVoiceBtn.addEventListener("click", speakInSelectedLanguage);
         updateGbUI();
     })();
 
     // --------------------------------------------------------------
-    // 2) MARKETPLACE MODULE (FarmConnect) - FULLY RESTYLED
+    // 2) MARKETPLACE MODULE (Fully functional)
     // --------------------------------------------------------------
     (function() {
         let users = JSON.parse(localStorage.getItem('fc_users')) || [
@@ -613,14 +789,14 @@
         function renderMarketplace() { let root = document.getElementById('marketplaceRoot'); if(!root) return; if(!currentUser) { root.innerHTML = renderAuth(); attachAuthEvents(); return; } if(currentUser.role === 'farmer') { root.innerHTML = renderFarmerDashboard(); attachFarmerEvents(); } else { root.innerHTML = renderCustomerApp(); attachCustomerEvents(); } }
         function renderAuth() { return `<div class="container" style="max-width:500px; margin-top:2rem;"><div class="dashboard-panel"><h2><i class="fas fa-leaf"></i> FarmConnect</h2><div style="display:flex; gap:1rem; margin-bottom:1rem;"><button id="showLoginBtnM" class="btn-primary">Login</button><button id="showSignupBtnM" class="btn-primary" style="background:#6c7a63;">Signup</button></div><div id="authFormContainerM"><form id="loginFormM"><div class="form-group"><input type="email" id="loginEmailM" placeholder="Email" required></div><div class="form-group"><input type="password" id="loginPasswordM" placeholder="Password" required></div><button type="submit" class="btn-primary">Login</button><p style="margin-top:1rem;">Demo: farmer@farm.com / farmer123 &nbsp;|&nbsp; customer@example.com / cust123</p></form></div></div></div>`; }
         function attachAuthEvents() { let showLogin = document.getElementById('showLoginBtnM'); let showSignup = document.getElementById('showSignupBtnM'); if(showLogin) showLogin.onclick = () => { document.getElementById('authFormContainerM').innerHTML = `<form id="loginFormM"><div class="form-group"><input type="email" id="loginEmailM" placeholder="Email" required></div><div class="form-group"><input type="password" id="loginPasswordM" placeholder="Password" required></div><button type="submit" class="btn-primary">Login</button></form>`; attachLogin(); }; if(showSignup) showSignup.onclick = () => { document.getElementById('authFormContainerM').innerHTML = `<form id="signupFormM"><div class="form-group"><input type="text" id="signupNameM" placeholder="Full Name" required></div><div class="form-group"><input type="email" id="signupEmailM" placeholder="Email" required></div><div class="form-group"><select id="signupRoleM"><option value="customer">Customer</option><option value="farmer">Farmer</option></select></div><div class="form-group"><input type="text" id="signupLocationM" placeholder="City"></div><div class="form-group"><input type="password" id="signupPasswordM" placeholder="Password" required></div><button type="submit" class="btn-primary">Signup</button></form>`; attachSignup(); }; function attachLogin() { let form = document.getElementById('loginFormM'); if(form) form.onsubmit = (e) => { e.preventDefault(); let email = document.getElementById('loginEmailM').value, pwd = document.getElementById('loginPasswordM').value; let user = users.find(u => u.email === email && u.password === pwd); if(user) { currentUser = { id: user.id, name: user.name, email: user.email, role: user.role, location: user.location }; saveAll(); renderMarketplace(); } else alert('Invalid'); }; } function attachSignup() { let form = document.getElementById('signupFormM'); if(form) form.onsubmit = (e) => { e.preventDefault(); let name = document.getElementById('signupNameM').value, email = document.getElementById('signupEmailM').value, role = document.getElementById('signupRoleM').value, loc = document.getElementById('signupLocationM').value || 'Pune', pwd = document.getElementById('signupPasswordM').value; if(users.find(u=>u.email===email)) return alert('Email exists'); let newUser = { id:'u'+Date.now(), name, email, password:pwd, role, location:loc }; users.push(newUser); currentUser = { id:newUser.id, name, email, role, location:loc }; saveAll(); renderMarketplace(); }; } let loginForm = document.getElementById('loginFormM'); if(loginForm) attachLogin(); }
-        function renderFarmerDashboard() { let myProducts = products.filter(p => p.farmerId === currentUser.id); let myOrders = orders.filter(o => o.farmerId === currentUser.id); return `<div class="market-navbar"><div class="logo"><i class="fas fa-tractor"></i> FarmConnect</div><div class="nav-links"><span class="user-badge"><i class="fas fa-user"></i> ${currentUser.name} (Farmer)</span><button id="logoutBtnM" class="outline">Logout</button></div></div><div class="container"><div class="dashboard-panel"><h3><i class="fas fa-plus-circle"></i> Add New Product</h3><form id="addProductFormM"><div class="form-group"><input type="text" id="prodNameM" placeholder="Product name" required></div><div class="form-group"><input type="number" id="prodPriceM" placeholder="Price per unit" required></div><div class="form-group"><input type="number" id="prodQtyM" placeholder="Available quantity" required></div><div class="form-group"><input type="text" id="prodUnitM" placeholder="Unit (kg, dozen)" value="kg"></div><div class="form-group"><select id="prodCategoryM"><option>Vegetables</option><option>Fruits</option><option>Grains</option></select></div><div class="form-group"><input type="text" id="prodLocationM" placeholder="Location (e.g. Pune, 5km)"></div><div class="form-group"><input type="file" id="prodImageM" accept="image/*"></div><button type="submit" class="btn-primary">Add Product</button></form></div><div class="dashboard-panel"><h3>📦 My Products</h3><div class="products-grid" id="farmerProductsGridM">${myProducts.map(p => `<div class="product-card"><div class="product-img">${p.imageData ? `<img src="${p.imageData}">` : '🌾'}</div><div class="product-info"><strong>${p.name}</strong><br>₹${p.price}/${p.unit}<br>Stock: ${p.quantity}<br>⭐ ${p.avgRating || 0}<br><button class="delete-prodM" data-id="${p.id}">Delete</button></div></div>`).join('') || '<p>No products yet.</p>'}</div></div><div class="dashboard-panel"><h3>📋 Orders Received</h3><table class="orders-table"><tr><th>Product</th><th>Qty</th><th>Buyer</th><th>Total+Delivery</th><th>Status</th><th>Action</th></tr>${myOrders.map(o => `<tr><td>${o.productName}</td><td>${o.quantity}</td><td>${o.buyerName}</td><td>₹${o.total + o.deliveryFee}</td><td><span class="badge ${o.status}">${o.status}</span></td><td>${o.status === 'pending' ? `<button class="accept-orderM" data-id="${o.id}">Accept</button> <button class="reject-orderM" data-id="${o.id}">Reject</button>` : '-'}</td></tr>`).join('')}</table></div></div>`; }
+        function renderFarmerDashboard() { let myProducts = products.filter(p => p.farmerId === currentUser.id); let myOrders = orders.filter(o => o.farmerId === currentUser.id); return `<div class="market-navbar"><div class="logo"><i class="fas fa-tractor"></i> FarmConnect</div><div class="nav-links"><span class="user-badge"><i class="fas fa-user"></i> ${currentUser.name} (Farmer)</span><button id="logoutBtnM" class="outline">Logout</button></div></div><div class="container"><div class="dashboard-panel"><h3><i class="fas fa-plus-circle"></i> Add New Product</h3><form id="addProductFormM"><div class="form-group"><input type="text" id="prodNameM" placeholder="Product name" required></div><div class="form-group"><input type="number" id="prodPriceM" placeholder="Price per unit" required></div><div class="form-group"><input type="number" id="prodQtyM" placeholder="Available quantity" required></div><div class="form-group"><input type="text" id="prodUnitM" placeholder="Unit (kg, dozen)" value="kg"></div><div class="form-group"><select id="prodCategoryM"><option>Vegetables</option><option>Fruits</option><option>Grains</option></select></div><div class="form-group"><input type="text" id="prodLocationM" placeholder="Location (e.g. Pune, 5km)"></div><div class="form-group"><input type="file" id="prodImageM" accept="image/*"></div><button type="submit" class="btn-primary">Add Product</button></form></div><div class="dashboard-panel"><h3>📦 My Products</h3><div class="products-grid" id="farmerProductsGridM">${myProducts.map(p => `<div class="product-card"><div class="product-img">${p.imageData ? `<img src="${p.imageData}">` : '🌾'}</div><div class="product-info"><strong>${p.name}</strong><br>₹${p.price}/${p.unit}<br>Stock: ${p.quantity}<br>⭐ ${p.avgRating || 0}<br><button class="delete-prodM" data-id="${p.id}">Delete</button></div></div>`).join('') || '<p>No products yet.</p>'}</div></div><div class="dashboard-panel"><h3>📋 Orders Received</h3><table class="orders-table"><tr><th>Product</th><th>Qty</th><th>Buyer</th><th>Total+Delivery</th><th>Status</th><th>Action</th><tr>${myOrders.map(o => `<tr><td>${o.productName}</td><td>${o.quantity}</td><td>${o.buyerName}</td><td>₹${o.total + o.deliveryFee}</td><td><span class="badge ${o.status}">${o.status}</span></td><td>${o.status === 'pending' ? `<button class="accept-orderM" data-id="${o.id}">Accept</button> <button class="reject-orderM" data-id="${o.id}">Reject</button>` : '-'}</td></tr>`).join('')}</table></div></div>`; }
         function attachFarmerEvents() { document.getElementById('logoutBtnM')?.addEventListener('click', () => { currentUser = null; saveAll(); renderMarketplace(); }); document.getElementById('addProductFormM')?.addEventListener('submit', (e) => { e.preventDefault(); let name = document.getElementById('prodNameM').value, price = parseFloat(document.getElementById('prodPriceM').value), qty = parseInt(document.getElementById('prodQtyM').value), unit = document.getElementById('prodUnitM').value, cat = document.getElementById('prodCategoryM').value, loc = document.getElementById('prodLocationM').value || currentUser.location; let file = document.getElementById('prodImageM').files[0]; let save = (img) => { products.push({ id:'p'+Date.now(), name, price, quantity:qty, unit, category:cat, farmerId:currentUser.id, farmerName:currentUser.name, imageData:img, location:loc, avgRating:0, ratings:[] }); saveAll(); renderMarketplace(); }; if(file){ let r = new FileReader(); r.onload = ev => save(ev.target.result); r.readAsDataURL(file); } else save(''); }); document.querySelectorAll('.delete-prodM').forEach(btn => btn.addEventListener('click', () => { products = products.filter(p => p.id !== btn.dataset.id); saveAll(); renderMarketplace(); })); document.querySelectorAll('.accept-orderM').forEach(btn => btn.addEventListener('click', () => { let ord = orders.find(o => o.id === btn.dataset.id); if(ord) ord.status = 'accepted'; saveAll(); renderMarketplace(); })); document.querySelectorAll('.reject-orderM').forEach(btn => btn.addEventListener('click', () => { let ord = orders.find(o => o.id === btn.dataset.id); if(ord) ord.status = 'rejected'; saveAll(); renderMarketplace(); })); }
         function renderCustomerApp() { let filtered = products.filter(p => p.quantity > 0); if(activeCategory !== 'All') filtered = filtered.filter(p => p.category === activeCategory); if(searchTerm) filtered = filtered.filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase())); let nearby = getNearbyFarmers(currentUser.location); let cartTotal = cart.reduce((s,i) => s + i.quantity, 0); let subtotal = cart.reduce((s,i) => s + (i.price * i.quantity), 0); let grand = subtotal + deliveryFee; return `<div class="market-navbar"><div class="logo"><i class="fas fa-store"></i> FarmConnect</div><div class="nav-links"><span class="user-badge"><i class="fas fa-user"></i> ${currentUser.name}</span><button id="viewCartBtnM"><i class="fas fa-shopping-cart"></i> Cart (${cartTotal})</button><button id="logoutBtnM" class="outline">Logout</button></div></div><div class="container"><div class="search-section"><div class="search-box"><input type="text" id="searchInputM" placeholder="Search..." value="${searchTerm}"><button id="searchBtnM"><i class="fas fa-search"></i></button></div><div class="categories" id="categoriesContainerM"><button class="cat-btn ${activeCategory==='All'?'active':''}" data-cat="All">All</button><button class="cat-btn ${activeCategory==='Vegetables'?'active':''}" data-cat="Vegetables">🥦 Veg</button><button class="cat-btn ${activeCategory==='Fruits'?'active':''}" data-cat="Fruits">🍎 Fruits</button><button class="cat-btn ${activeCategory==='Grains'?'active':''}" data-cat="Grains">🌾 Grains</button></div></div><div class="nearby-section"><i class="fas fa-map-marker-alt"></i> <strong>Nearby Farmers (${currentUser.location || 'Pune'} region)</strong><div class="nearby-list">${nearby.map(f => `<div class="nearby-card"><i class="fas fa-tractor"></i> ${f.name}<br><small>📍 ${f.location}</small></div>`).join('')}</div></div><div class="products-grid" id="customerProductsGridM">${filtered.map(p => `<div class="product-card"><div class="product-img">${p.imageData ? `<img src="${p.imageData}">` : (p.category==='Vegetables'?'🥬':'🍎')}</div><div class="product-info"><div class="product-title">${p.name}</div><div class="product-detail"><i class="fas fa-user"></i> ${p.farmerName} · 📍 ${p.location}</div><div class="price">₹${p.price} / ${p.unit}</div><div class="stock">In stock: ${p.quantity} ${p.unit}</div><div class="rating">⭐ ${p.avgRating || 0} <button class="rate-prodM" data-id="${p.id}" style="background:none; border:none; color:#ffb347;">Rate</button></div><button class="add-cartM" data-id="${p.id}"><i class="fas fa-cart-plus"></i> Add to Cart</button><button class="chat-farmerM" data-farmer="${p.farmerId}" style="margin-top:0.3rem; background:#e9f5e1; border:none; padding:0.3rem; border-radius:1rem; width:100%;">💬 Chat with Farmer</button></div></div>`).join('') || '<p>No products found.</p>'}</div></div><div class="cart-overlay" id="cartOverlayM"></div><div class="cart-sidebar" id="cartSidebarM"><div class="flex-between"><h3>Your Cart</h3><button id="closeCartBtnM"><i class="fas fa-times"></i></button></div><div id="cartItemsListM">${cart.map(item => `<div class="flex-between" style="margin:0.5rem 0;"><span>${item.name} x${item.quantity} (${item.unit})<br><small>₹${item.price}/ea</small></span><span>₹${item.price * item.quantity}</span></div>`).join('')}</div><hr><div>Subtotal: ₹${subtotal}</div><div>Delivery Fee: ₹${deliveryFee}</div><div class="flex-between"><strong>Total: ₹${grand}</strong></div><button id="checkoutBtnM" class="btn-primary" style="width:100%; margin-top:1rem;">Place Order</button></div><div id="chatModalM" class="chat-modal"></div>`; }
         function attachCustomerEvents() { document.getElementById('logoutBtnM')?.addEventListener('click', () => { currentUser = null; saveAll(); renderMarketplace(); }); document.getElementById('searchBtnM')?.addEventListener('click', () => { searchTerm = document.getElementById('searchInputM').value; renderMarketplace(); }); document.querySelectorAll('.cat-btn').forEach(btn => btn.addEventListener('click', () => { activeCategory = btn.dataset.cat; renderMarketplace(); })); document.querySelectorAll('.add-cartM').forEach(btn => btn.addEventListener('click', (e) => { let prod = products.find(p => p.id === btn.dataset.id); if(prod && prod.quantity>0) { let exist = cart.find(i => i.id === prod.id); if(exist) exist.quantity++; else cart.push({ id: prod.id, name: prod.name, price: prod.price, quantity:1, unit: prod.unit, farmerId: prod.farmerId, farmerName: prod.farmerName }); saveAll(); renderMarketplace(); let sidebar = document.getElementById('cartSidebarM'); if(sidebar) sidebar.classList.add('open'); document.getElementById('cartOverlayM').style.display = 'block'; } else alert('Out of stock'); })); document.querySelectorAll('.rate-prodM').forEach(btn => btn.addEventListener('click', () => { let r = prompt('Rate 1-5:'); if(r && r>=1 && r<=5){ let prod = products.find(p=>p.id===btn.dataset.id); if(prod){ prod.ratings.push(parseInt(r)); prod.avgRating = (prod.ratings.reduce((a,b)=>a+b,0)/prod.ratings.length).toFixed(1); saveAll(); renderMarketplace(); } } })); let sidebar = document.getElementById('cartSidebarM'), overlay = document.getElementById('cartOverlayM'); document.getElementById('viewCartBtnM')?.addEventListener('click', () => { sidebar.classList.add('open'); overlay.style.display = 'block'; }); document.getElementById('closeCartBtnM')?.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.style.display = 'none'; }); overlay?.addEventListener('click', () => { sidebar.classList.remove('open'); overlay.style.display = 'none'; }); document.getElementById('checkoutBtnM')?.addEventListener('click', () => { if(cart.length===0) return alert('Cart empty'); for(let item of cart){ let prod = products.find(p=>p.id===item.id); if(!prod || prod.quantity < item.quantity){ alert(`Insufficient stock for ${item.name}`); return; } } for(let item of cart){ let prod = products.find(p=>p.id===item.id); prod.quantity -= item.quantity; orders.push({ id:'ord'+Date.now()+Math.random(), productId:item.id, productName:item.name, quantity:item.quantity, total:item.price*item.quantity, deliveryFee, finalTotal:item.price*item.quantity+deliveryFee, buyerId:currentUser.id, buyerName:currentUser.name, farmerId:item.farmerId, farmerName:item.farmerName, status:'pending' }); } cart = []; saveAll(); alert('Order placed! Farmers can accept/reject.'); renderMarketplace(); if(sidebar) sidebar.classList.remove('open'); if(overlay) overlay.style.display = 'none'; }); document.querySelectorAll('.chat-farmerM').forEach(btn => btn.addEventListener('click', () => { let farmerId = btn.dataset.farmer; let chat = chats.find(c => c.farmerId === farmerId && c.customerId === currentUser.id); if(!chat) { chat = { id: `${farmerId}_${currentUser.id}`, farmerId, customerId: currentUser.id, messages: [] }; chats.push(chat); saveAll(); } let modal = document.getElementById('chatModalM'); modal.style.display = 'flex'; modal.innerHTML = `<div class="chat-header"><i class="fas fa-comment"></i> Chat with Farmer <span style="float:right; cursor:pointer;">&times;</span></div><div class="chat-messages" id="chatMessagesM">${chat.messages.map(m => `<div><b>${m.sender}:</b> ${m.text}</div>`).join('')}</div><div class="chat-input"><input type="text" id="chatInputM" placeholder="Type..."><button id="sendChatM">Send</button></div>`; modal.querySelector('.chat-header span').onclick = () => modal.style.display = 'none'; document.getElementById('sendChatM').onclick = () => { let inp = document.getElementById('chatInputM'); if(inp.value.trim()){ chat.messages.push({ sender: currentUser.name, text: inp.value, time: new Date().toLocaleTimeString() }); saveAll(); let msgDiv = document.getElementById('chatMessagesM'); msgDiv.innerHTML += `<div><b>${currentUser.name}:</b> ${inp.value}</div>`; inp.value = ''; msgDiv.scrollTop = msgDiv.scrollHeight; } }; })); }
         renderMarketplace();
     })();
 
-    // MODULE TOGGLE
+    // Module toggle
     const greenModule = document.getElementById('greenbyteModule');
     const marketModule = document.getElementById('marketplaceModule');
     const toggleBtns = document.querySelectorAll('.toggle-module');
